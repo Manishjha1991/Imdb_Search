@@ -1,20 +1,36 @@
 {
-  "name": "manish",
+  "name": "imdb_movie_search",
   "version": "1.0.0",
-  "description": "my simple nodejs app",
+  "description": "search like imdb with movie trailor",
   "main": "server.js",
+  "dependencies": {
+    "body-parser": "1.17.1",
+    "ejs": "2.5.6",
+    "express": "4.15.2",
+    "imdb": "1.1.0",
+    "jquery": "3.2.1",
+    "jsonwebtoken": "7.3.0",
+    "mongodb": "2.2.25",
+    "mongoose": "4.9.1",
+    "mysql": "2.13.0",
+    "node-each": "1.0.1",
+    "omdb": "0.7.0",
+    "request": "2.81.0",
+    "socket.io": "1.7.3"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "manish",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.17.1",
-    "ejs": "^2.5.6",
-    "express": "^4.15.2",
-    "imdb": "1.1.0",
-    "mongodb": "^2.2.25"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manishjha1991/Imdb_Search.git"
   },
-  "devDependencies": {}
+  "author": "Manish Kumar jha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manishjha1991/Imdb_Search/issues"
+  },
+  "homepage": "https://github.com/Manishjha1991/Imdb_Search#readme"
 }

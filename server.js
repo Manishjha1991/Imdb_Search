@@ -5,11 +5,12 @@ var express = require('express')
 , io = require('socket.io').listen(http)
 , db = require('mysql')
 , bodyParser = require("body-parser")
-var router = express.Router();
-var request = require('request');
-
-var omdb = require('omdb');
+router = express.Router()
+var request = require('request')
+var omdb = require('omdb')
 var imdb = require('imdb');
+
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -38,18 +39,16 @@ app.post('/moviesList', (req, res) => {
   omdb.search(moviesname, function(err, movies) {
     if(err) {
             // res.send(err);
-        //return console.error(err);
+        return console.error(err);
     }
 
     if(movies.length < 1) {
         res.send('No movies were found!');
-        //return console.log('No movies were found!');
+        // return console.log('Movie not found!');
     }
     else {
-      res.send(movies);
-    }
-
-
+              res.send(movies);
+          }
 });
 })
 
@@ -69,17 +68,11 @@ app.post('/moviesfullList', (req, res) => {
       }
       else
       {
+
           res.send(movie);
 
       }
-
-      // console.log('%s (%d) %d/10', movie.title, movie.year, movie.imdb.rating);
-      // console.log(movie.plot);
-
-      // Saw (2004) 7.6/10
-      // Two men wake up at opposite sides of a dirty, disused bathroom, chained
-      // by their ankles to pipes. Between them lies...
-  });
+});
 
 })
-http.listen(3000);
+http.listen(PORT);

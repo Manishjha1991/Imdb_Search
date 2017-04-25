@@ -3,84 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>MY APP</title>
-
+  <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/mlist.css"/>
 <script type = "text/javascript" src = "js/angular.js"></script>
-
-  <style>
-  @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-*{box-sizing:border-box}
-body{
-  background: #f2f2f2;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.search {
-  width: 100%;
-  position: absolute;
-}
-.circle {
-      width: 134px;
-      height: 134px;
-     -webkit-border-radius: 25px;
-     -moz-border-radius: 25px;
-     border-radius: 25px;
-     margin-top: 31%;
-     background: red;
-   }
-.searchTerm {
-  float: left;
-  width: 100%;
-  border: 3px solid #00B4CC;
-  padding: 5px;
-  height: 35px;
-  border-radius: 5px;
-  outline: none;
-  color: #9DBFAF;
-}
-
-.searchTerm:focus{
-  color: #00B4CC;
-}
-
-.searchButton {
-  position: absolute;
-  right: -50px;
-  width: 40px;
-  height: 36px;
-  border: 1px solid #00B4CC;
-  background: #00B4CC;
-  text-align: center;
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-/*Resize the wrap to see the search bar change!*/
-.wrap{
-  width: 100%;
-  height:auto;
-
-}
-.poster_img{width:50px;height:50px;position:absolute;left:5px;top:5px;}
-.search_wrap{width:400px;height:50px;position:fixed;left:0;right:0;margin:auto;top:50px;}
-.search_results{width:100%;height:auto;max-height:300px;overflow:auto;position:absolute;left:0;top:40px;background:#fff}
-.results_common{width:100%;height:60px;background:#fff;border-bottom:#e6e6e6;position:relative;padding:5px 0 5px 70px;}
-.results_title{width:100%;height:20px;line-height:20px;color:#333;font-size:14px;}
-  </style>
-</head>
 <body ng-app="myApp">
 
   <div class="wrap" ng-controller="myCtrl">
   <div class="search_wrap" >
    <div class="search">
       <input type="text" class="searchTerm"  ng-model="data.moviesname" placeholder="Search You Movies?" ng-keyup="keyUpsearch(data.moviesname)">
-      <button type="submit" ng-click="submit()" class="searchButton">
-        <i class="fa fa-search"></i>
+      <i class="fa fa-search"></i>
      </button>
    </div>
-    <div class="search_results">
+    <div class="search_results" ng-hide="myMovieDetails !== ''">
       <div class="results_common" ng-repeat="x in myMovie track by $index" ng-click="submit(x.imdb,x.year)">
       <div class="poster_img" style="background:url({{x.poster}})no-repeat; background-position:center;background-size:cover"></div>
        <div class="results_title" all-data="{{x}}">
@@ -92,55 +29,35 @@ body{
 
    <!-- <div class="circle" ng-repeat="x in myMovie">{{x.title}}> -->
    </div>
+   <div  ng-hide="myMovieDetails == '' || myMovie ==''">
+     <div class="card transition" style="background:url({{myMovieDetails.poster}})no-repeat; background-position:center;background-size:cover"></div>
+     <!-- <h2 class="transition">{{myMovieDetails.title}}</h2> -->
+     <div>
+     <iframe ng-show="url !== ''" width="420" height="345" ng-src="{{url}}" allowfullscreen>
+     </iframe>
+     <span><h4>TITLE</h4><p>{{myMovieDetails.title}}</p></span>
+     <!-- <span><h4>Stars</h4><p>{{myMovieDetails.actors}}</p></span> -->
+     <span><h4>Stars</h4><p ng-repeat="exercise in myMovieDetails.actors track by $index">{{exercise}}</p></span>
+
+     <span><h4>Directors</h4><p>{{myMovieDetails.director}}</p></span>
+     <!-- <span><h4>Writer</h4><p>{{myMovieDetails.writers}}</p></span> -->
+     <span><h4>Writer</h4><p ng-repeat="wrt in myMovieDetails.writers track by $index">{{wrt}}</p></span>
+     <span><h4>Rating</h4><p>{{myMovieDetails.imdb.rating}}</p></span>
+     <span><h4>Plot</h4><p>{{myMovieDetails.plot}}</p></span>
+     <span><h4>Released</h4><p>{{myMovieDetails.released}}</p></span>
+     <span><h4>MOVIE/SERIES</h4><p>{{myMovieDetails.type}}</p></span>
+     <div class="cta-container transition"><a href="#" class="cta">Call to action</a></div>
+     <div class="card_circle transition"></div>
+
+   </div>
+
+
+
 
  </div>
 
-</div>
-
-  <script>
 
 
-  var app = angular.module('myApp', []);
- app.controller('myCtrl', function($scope,$http) {
-
-$scope.keyUpsearch= function(keycode){
-  // console.log(keycode);
-  // return false;
-  $scope.data.keycode=keycode;
-
-
-    $http({
-        url: 'http://localhost:3000/moviesList',
-        method: 'POST',
-        data: $scope.data
-    }).then(function (httpResponse) {
-        console.log(httpResponse);
-            $scope.myMovie = httpResponse.data;
-        // console.log('response:', httpResponse);
-        //  $window.location.href = '/index.html';
-
-    })
-   }
-$scope.submit= function(keycode,years){
-
-
-  $scope.data.keycode=keycode;
-  $scope.data.years=years;
-
-    $http({
-        url: 'http://localhost:3000/moviesfullList',
-        method: 'POST',
-        data: $scope.data
-    }).then(function (httpResponse) {
-        console.log(httpResponse.data);
-            // $scope.myMovie = httpResponse.data;
-
-
-    })
-   }
- });
-
-  </script>
 </body>
 
 
