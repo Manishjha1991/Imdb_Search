@@ -24,6 +24,7 @@ else
   $scope.data.moviesname = "";
   $scope.myMovie ="";
   $scope.myMovieDetails="";
+  $scope.url ="";
 
 }
 }
@@ -46,12 +47,12 @@ $http({
           if(httpResponse.data.results[0] !==undefined)
           {
             $scope.video = {
-          youtubeid: httpResponse.data.results[0].key
-          }
-          $scope.getUrl = function (id) {
-          return '//www.youtube.com/embed/'+id+'?rel=0'
-          }
-          $scope.url = $scope.getUrl(httpResponse.data.results[0].key)
+              youtubeid: httpResponse.data.results[0].key
+            }
+            $scope.getUrl = function (id) {
+              return '//www.youtube.com/embed/'+id+'?rel=0'
+            }
+            $scope.url = $scope.getUrl(httpResponse.data.results[0].key)
           }
           else
           {
